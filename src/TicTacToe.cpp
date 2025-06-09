@@ -34,19 +34,19 @@ uint8_t returnSign(uint8_t field, std::bitset<18>& GameMap) {
 }*/
 
 bool isVictorious(std::bitset<18> GameMap){
-  //horizontal, vertical
-  for(int i=0;i<7;i+=3){
+  for(uint8_t i=0;i<7;i+=3){
     if(GameMap[i*2] && GameMap[(i+1)*2] && GameMap[(i+2)*2]) return true;
     if(GameMap[i*2+1] && GameMap[(i+1)*2+1] && GameMap[(i+2)*2+1]) return true;
   }
-  //diagonal
-  //  -x -- --    -- -x --    -- -- -x
+  for(uint8_t i=0;i<3;i++){
+    if(GameMap[i*2] && GameMap[(i+3)*2] && GameMap[(i+6)*2]) return true;
+    if(GameMap[i*2+1] && GameMap[(i+3)*2+1] && GameMap[(i+6)*2+1]) return true;
+  }
   if((GameMap[0] && GameMap[8] && GameMap[16]) || (GameMap[1] && GameMap[9] && GameMap[17])) return true;
   if((GameMap[4] && GameMap[8] && GameMap[12])  || (GameMap[5] && GameMap[9] && GameMap[13])) return true;
   return false;
 }
 //-----------------------------------------------------------------------------------------------------//
-//
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 SDL_Texture* cirT = nullptr;

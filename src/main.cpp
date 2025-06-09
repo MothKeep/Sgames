@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <iostream>
 #include "TicTacToe.h"
+#include "Pong.h"
 
 SDL_Window* Window = nullptr;
 SDL_Renderer* Renderer = nullptr;
@@ -49,6 +50,9 @@ void loop(void){
           break;
         case SDLK_1:
           TicTacToe();
+          break;
+        case SDLK_2:
+          Pong();
           break;
       }
     }
