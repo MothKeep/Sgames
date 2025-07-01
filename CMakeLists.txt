@@ -15,3 +15,6 @@ target_link_libraries(Sgames PRIVATE SDL3::SDL3)
 
 find_package(SDL3_image REQUIRED)
 target_link_libraries(Sgames PRIVATE SDL3_image::SDL3_image)
+
+find_package(SDL3_ttf REQUIRED)
+target_link_libraries(Sgames PRIVATE SDL3_ttf::SDL3_ttf)

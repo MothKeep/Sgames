@@ -4,6 +4,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <cstddef>
 #include <iostream>
 #include "TicTacToe.h"
@@ -21,6 +22,7 @@ SDL_RenderTexture(Renderer, texture, NULL, NULL);
 void init(void) {
   if(!SDL_Init(SDL_INIT_VIDEO)) std::cout<<"Error initializing video.\n";
   if(!SDL_CreateWindowAndRenderer("Sgames", SCREEN_WIDTH, SCREEN_HEIGHT, 0, &Window, &Renderer)) std::cout<<"Error creating window and renderer.\n";
+  if (!TTF_Init()) std::cout << "TTF_Init failed: " << SDL_GetError();
 }
 void end(void){
   SDL_DestroyWindow(Window);
