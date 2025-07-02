@@ -1,5 +1,5 @@
-#ifndef TICTACTOE_H
-#define TICTACTOE_H
+#ifndef TICTACTOE_HPP
+#define TICTACTOE_HPP
 
 #include <bitset>
 #include <cstdint>
@@ -11,4 +11,4 @@ bool isVictorious(std::bitset<18>& GameMap);
 void drawMap(std::bitset<18>& GameMap);
 void TicTacToe();
 
-#endif // TICTACTOE_H
+#endif // TICTACTOE_HPP

@@ -7,8 +7,9 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <cstddef>
 #include <iostream>
-#include "TicTacToe.h"
-#include "Pong.h"
+#include "TicTacToe.hpp"
+#include "Pong.hpp"
+#include "Arcanoid.hpp"
 
 SDL_Window* Window = nullptr;
 SDL_Renderer* Renderer = nullptr;
@@ -54,7 +55,10 @@ void loop(void){
           TicTacToe();
           break;
         case SDLK_2:
-          Pong();
+          Pong::Pong();
+          break;
+        case SDLK_3:
+          Arcanoid::Game();
           break;
       }
     }

@@ -15,10 +15,11 @@
 //1080x720
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
+namespace Pong{
+
 TTF_TextEngine* Engine = nullptr;
 SDL_Texture* boinkT = nullptr;
 SDL_Texture* ballT = nullptr;
-
 void moveBall(float& speed, float& x, float& y, float& dir_x, float& dir_y, float left_y, float right_y, float& fspeed){
   x += speed * dir_x;
   y += speed * dir_y;
@@ -132,4 +133,5 @@ void Pong(){
 
     PongRenderFrame(left_y, right_y, ball_x, ball_y, lScore, rScore);
   }
+}
 }
