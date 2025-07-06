@@ -13,6 +13,7 @@
 
 SDL_Window* Window = nullptr;
 SDL_Renderer* Renderer = nullptr;
+TTF_TextEngine* Engine = nullptr;
 #define SCREEN_WIDTH 1080
 #define SCREEN_HEIGHT 720
 /*
@@ -24,6 +25,9 @@ void init(void) {
   if(!SDL_Init(SDL_INIT_VIDEO)) std::cout<<"Error initializing video.\n";
   if(!SDL_CreateWindowAndRenderer("Sgames", SCREEN_WIDTH, SCREEN_HEIGHT, 0, &Window, &Renderer)) std::cout<<"Error creating window and renderer.\n";
   if (!TTF_Init()) std::cout << "TTF_Init failed: " << SDL_GetError();
+
+  Engine=TTF_CreateRendererTextEngine(Renderer);
+  if(!Engine) std::cout<<"Error creating text enginge: "<<SDL_GetError();
 }
 void end(void){
   SDL_DestroyWindow(Window);
