@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
+#include <string>
 #include <sys/types.h>
 #include <vector>
 #include "Arcanoid.hpp"
@@ -46,7 +47,6 @@ namespace Arcanoid{
     }
     SDL_RenderPresent(Renderer);
   }
-
   void GenerateMap(){
     for(u_int8_t i=0; i<10; i++){
       for(u_int8_t j=0; j<16; j++){
@@ -68,8 +68,10 @@ namespace Arcanoid{
         Score += 10 * Multiplier;
         Multiplier += 0.1;
         speed +=0.00005;
-        
+
+        TTF_DestroyText(ScoreT);
         ScoreT = TTF_CreateText(Engine, font, std::to_string(Score).c_str(), std::to_string(Score).length());
+        if(Map.size()==0) GenerateMap();
         return true;
       }
     }
@@ -95,6 +97,28 @@ namespace Arcanoid{
     
     if(bx>1072 || bx < 8) dirx=-dirx;
   }
+  void GameOver(){
+    SDL_SetRenderDrawColor(Renderer, 40, 40, 40, 255);
+    SDL_RenderClear(Renderer);
+    
+    SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
+    TTF_Text* over = TTF_CreateText(Engine, font, "Game Over", 9);
+    TTF_DrawRendererText(over, 540 - 9*7, 300);
+    TTF_DestroyText(over);
+    TTF_DrawRendererText(ScoreT, 540 - std::to_string(Score).length() * 7, 350);
+  
+    SDL_RenderPresent(Renderer);
+  }
+  void cleanUp(){
+    SDL_DestroyTexture(boinkT);
+    SDL_DestroyTexture(ballT);
+    SDL_DestroyTexture(brickT);
+    Map.clear();
+    boinkT = nullptr;
+    ballT = nullptr;
+    brickT = nullptr;
+    TTF_CloseFont(font); 
+  }
   void Game(){
     boinkT = IMG_LoadTexture(Renderer, "../assets/imgs/boinker_h.png");
     ballT = IMG_LoadTexture(Renderer, "../assets/imgs/ball.png");
@@ -107,8 +131,8 @@ namespace Arcanoid{
     const bool* inputs = SDL_GetKeyboardState(NULL);
     float player_pos = 540, ball_x = 540, ball_y = 360, dirx=0, diry=1;
     GenerateMap();
-
-    bool quit = false;  
+    
+    bool quit = false, over = false;  
     SDL_Event e;
     SDL_zero(e);
     
@@ -123,12 +147,19 @@ namespace Arcanoid{
           }
         }         
       }
-      
-      if(inputs[SDL_SCANCODE_A] && player_pos > 40) player_pos-=speed-0.01;
-      if(inputs[SDL_SCANCODE_D] && player_pos < 1040) player_pos+=speed-0.01;
-      BallMovement(ball_x, ball_y, dirx, diry, player_pos);
+      if(!over){
+        if(inputs[SDL_SCANCODE_A] && player_pos > 40) player_pos-=speed-0.01;
+        if(inputs[SDL_SCANCODE_D] && player_pos < 1040) player_pos+=speed-0.01;
+        BallMovement(ball_x, ball_y, dirx, diry, player_pos);
 
-      RenderFrame(player_pos, ball_x, ball_y);
+        if(ball_y>670){
+          GameOver();
+          over = true;
+        }
+        else RenderFrame(player_pos, ball_x, ball_y);
+      }
     }
+
+    cleanUp();
   }
 }
